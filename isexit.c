@@ -51,6 +51,7 @@ int is_env(char **argv)
 		{
 			_puts(environ[x]);
 		}
+		_putchar('\n');
 	}
 	return (x);
 }

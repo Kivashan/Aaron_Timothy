@@ -2,9 +2,10 @@
 /**
 * location - function that return path of a command
 * @command: command whose path is returned
+* @m: argument for clearing mem leaks
 * Return: path of command
 */
-char *location(char *command)
+char *location(char *command, int *m)
 {
 	char *path = NULL, *path_copy = NULL, *path_token = NULL, *file_path = NULL;
 	int command_length, dir_length;
@@ -40,6 +41,7 @@ char *location(char *command)
 		free(path_copy);
 		if (stat(command, &buffer) == 0)
 		{
+			*m = 1;
 			return (command);
 		}
 		return (NULL);

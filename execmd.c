@@ -19,12 +19,6 @@ void execmd(char *command, char **argv, char **envp)
 	}
 	if (pid == 0)
 	{
-		command = location(argv[0]);
-		if (!command)
-		{
-			free(command);
-			return;
-		}
 		execve(command, argv, envp);
 		perror("execve failed");
 		return;
@@ -48,12 +42,15 @@ void execmd(char *command, char **argv, char **envp)
 /**
 * exec - function that executes a command
 * @envp: environment
+* @d: increament commands
 * @argv: array of string arguments
+* Return: returns void value
 */
 
-void exec(char **argv, char **envp)
+void exec(char **argv, char **envp, int d)
 {
 	char *command;
+	int m = 0;
 
 	if (argv)
 	{
@@ -82,7 +79,12 @@ void exec(char **argv, char **envp)
 		}
 		else
 		{
+			command = location(argv[0], &m);
+			if (com(command, argv, d))
+				return;
 			execmd(command, argv, envp);
+			if (m == 0)
+				free(command);
 		}
 	}
 
